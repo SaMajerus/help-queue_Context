@@ -5,7 +5,11 @@ import PropTypes from "prop-types";
 
 function ReusableForm(props) {
   //We create a ThemeContext consumer and get access to the provider value.
-  const theme = useContext(ThemeContext);
+  const theme = useContext(ThemeContext); 
+
+  if (!theme) {
+    throw new Error("ThemeContext must be used within a ThemeContext.Provider!");
+  }
 
   //We create button styles.
   const buttonStyles = { 

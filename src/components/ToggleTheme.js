@@ -4,6 +4,11 @@ import PropTypes from "prop-types";
 function ToggleTheme(props) {
   const { theme, toggleTheme } = props;
 
+  //New if statement below!
+  if (!theme) {
+    throw new Error("ThemeContext must be used within a ThemeContext.Provider!");
+  }
+
   const styles = { 
     backgroundColor: theme.buttonBackground, 
     color: theme.textColor 
