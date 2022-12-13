@@ -3,6 +3,7 @@ import NewTicketForm from './NewTicketForm';
 import EditTicketForm from './EditTicketForm';
 import TicketList from './TicketList';
 import TicketDetail from './TicketDetail'; 
+import { ThemeContext } from "./../context/theme-context";  //We import ThemeContext to create a new consumer.
 
 class TicketControl extends React.Component {
 
@@ -12,7 +13,7 @@ class TicketControl extends React.Component {
       formVisibleOnPage: false,
       mainTicketList: [],
       selectedTicket: null,
-      editing: false // new code
+      editing: false 
     };  
   }
 
@@ -22,7 +23,7 @@ class TicketControl extends React.Component {
       this.setState({
         formVisibleOnPage: false,
         selectedTicket: null,
-        editing: false // new code
+        editing: false 
       });   {/* This first conditional enables the Method to handle returning to the Queue from the Ticket Detail page (and/or a component which is accessed via the Details page, like the Edit form). */} 
     } else {
       this.setState(prevState => ({
@@ -72,6 +73,15 @@ class TicketControl extends React.Component {
   }
 
   render(){
+    //We access the context value.
+    let theme = this.context;
+
+    //We create our button styles.
+    const buttonStyles = { 
+      backgroundColor: theme.buttonBackground, 
+      color: theme.textColor, 
+    }
+
     let currentlyVisibleState = null;
     let buttonText = null; 
     
@@ -85,8 +95,7 @@ class TicketControl extends React.Component {
         onClickingDelete = {this.handleDeletingTicket} 
         onClickingEdit = {this.handleEditClick} />
       buttonText = "Return to Ticket List";
-    }
-    else if (this.state.formVisibleOnPage) {
+    } else if (this.state.formVisibleOnPage) {
       currentlyVisibleState = <NewTicketForm onNewTicketCreation={this.handleAddingNewTicketToList}  />;
       buttonText = "Return to Ticket List";
     } else {
@@ -98,11 +107,15 @@ class TicketControl extends React.Component {
     return (
       <React.Fragment>
         {currentlyVisibleState}
-        <button onClick={this.handleClick}>{buttonText}</button> { /* new code */ }
+        {/* We've added a new style attribute to the button below. */}
+        <button style={buttonStyles} onClick={this.handleClick}>{buttonText}</button> 
       </React.Fragment>
     );
   }
 
 }
 
-export default TicketControl;
+//We've created a contextType property and set it to ThemeContext.
+TicketControl.contextType = ThemeContext;
+
+export default TicketControl; 
