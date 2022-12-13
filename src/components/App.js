@@ -5,12 +5,18 @@ import ToggleTheme from "./ToggleTheme";
 import { ThemeContext, themes } from "./../context/theme-context";
 
 function App(){ 
-  const [theme, setTheme] = useState(themes.light);
+  const [theme, setTheme] = useState(themes.light); 
+
+  function toggleTheme() {
+    setTheme(theme => 
+      theme.textColor === "AntiqueWhite" ? themes.light : themes.dark
+    );
+  }
 
   return ( 
-    <ThemeContext.Provider value={theme}> {/* new code! */}
+    <ThemeContext.Provider value={theme}> 
       <Header />
-      <ToggleTheme />
+      <ToggleTheme toggleTheme={toggleTheme}/> {/* new code! */}
       <TicketControl />
     </ThemeContext.Provider>
   );
